@@ -19,7 +19,7 @@ class Header extends Component {
         <button
           type="button"
           data-testid="query-button"
-          onClick={ onClick(value) }
+          onClick={ onClick }
         >
           Buscar
 
