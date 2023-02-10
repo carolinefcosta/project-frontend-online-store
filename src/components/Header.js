@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 class Header extends Component {
   render() {
+    const { onClick, onChange, value } = this.props;
     return (
       <>
         <label>
@@ -17,7 +19,7 @@ class Header extends Component {
         <button
           type="button"
           data-testid="query-button"
-          onClick={ onClick(value) }
+          onClick={ onClick }
         >
           Buscar
 
@@ -27,5 +29,11 @@ class Header extends Component {
     );
   }
 }
+
+Header.propTypes = {
+  onClick: PropTypes.func,
+  onChange: PropTypes.func,
+  value: PropTypes.string,
+}.isRequired;
 
 export default Header;
