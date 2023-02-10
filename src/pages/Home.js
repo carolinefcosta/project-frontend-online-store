@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import Category from '../components/Category';
 import Header from '../components/Header';
 import ProductCard from '../components/ProductCard';
-import { getProductsFromCategoryAndQuery, getCategories } from '../services/api';
+import { getProductsFromCategoryAndQuery,
+  getCategories } from '../services/api';
 
 class Home extends Component {
   state = {
@@ -10,6 +11,7 @@ class Home extends Component {
     resultProducts: {},
     inputSearch: '',
     listCategory: [],
+    searchCategory: '',
   };
 
   componentDidMount() {
@@ -29,12 +31,24 @@ class Home extends Component {
   };
 
   getProductsFromApi = async (query) => {
-    const result = await getProductsFromCategoryAndQuery(query);
+    const result = await getProductsFromCategoryAndQuery(null, query);
+    console.log(result);
     this.setState({ resultProducts: result });
-    this.setState({ listFull: true });
-    // if (result === undefined) {
+  };
 
-    // }
+  getProductsFromCategory2 = async (categoryId) => {
+    const result = await getProductsFromCategoryAndQuery(categoryId, null);
+    console.log(result);
+    this.setState({ resultProducts: result });
+  };
+
+  getProductsFromCategory = async ({ target }) => {
+    const result = target.name;
+    console.log(result);
+    this.setState(
+      { searchCategory: result },
+      () => this.getProductsFromCategory2(result),
+    );
   };
 
   render() {
@@ -49,6 +63,7 @@ class Home extends Component {
         />
         <Category
           listCategory={ listCategory }
+          onClick={ this.getProductsFromCategory }
         />
         {(!results) && (
           <h1>Nenhum produto foi encontrado</h1>
