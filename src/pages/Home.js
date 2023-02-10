@@ -7,11 +7,9 @@ import { getProductsFromCategoryAndQuery,
 
 class Home extends Component {
   state = {
-    listFull: false,
     resultProducts: {},
     inputSearch: '',
     listCategory: [],
-    searchCategory: '',
   };
 
   componentDidMount() {
@@ -43,16 +41,11 @@ class Home extends Component {
   };
 
   getProductsFromCategory = async ({ target }) => {
-    const result = target.name;
-    console.log(result);
-    this.setState(
-      { searchCategory: result },
-      () => this.getProductsFromCategory2(result),
-    );
+    this.getProductsFromCategory2(target.name);
   };
 
   render() {
-    const { listFull, inputSearch, resultProducts, listCategory } = this.state;
+    const { inputSearch, resultProducts, listCategory } = this.state;
     const { results } = resultProducts;
     return (
       <div>
