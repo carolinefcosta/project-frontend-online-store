@@ -1,16 +1,30 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
+import { getProductsFromCategoryAndQuery } from '../services/api';
 
 class Home extends Component {
   state = {
     listFull: false,
+    resultProducts: [],
+    inputSearch: '',
+  };
+
+  handleChange = ({ target }) => {
+    const { name, value } = target;
+    this.setState({
+      [name]: value,
+    });
   };
 
   render() {
-    const { listFull } = this.state;
+    const { listFull, inputSearch } = this.state;
     return (
       <div>
-        <Header />
+        <Header
+          value={ inputSearch }
+          onChange={ this.handleChange }
+          onClick={ () => getProductsFromCategoryAndQuery() }
+        />
         {
           listFull ? <div /> : (
             <h1
