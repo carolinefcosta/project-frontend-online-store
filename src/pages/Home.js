@@ -36,7 +36,7 @@ class Home extends Component {
           onChange={ this.handleChange }
           onClick={ () => this.getProductsFromApi(inputSearch) }
         />
-        {(results) && (
+        {(!results) && (
           <h1>Nenhum produto foi encontrado</h1>
 
         )}
