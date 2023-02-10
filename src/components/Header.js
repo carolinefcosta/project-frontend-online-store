@@ -30,4 +30,10 @@ class Header extends Component {
   }
 }
 
+Header.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
+}
+
 export default Header;

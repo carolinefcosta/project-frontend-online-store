@@ -19,7 +19,11 @@ class Home extends Component {
 
   getProductsFromApi = async (query) => {
     const result = await getProductsFromCategoryAndQuery(query);
-    this.setState({ resultProducts: result, listFull: true });
+    this.setState({ resultProducts: result });
+    this.setState({ listFull: true });
+    // if (result === undefined) {
+
+    // }
   };
 
   render() {
@@ -32,6 +36,10 @@ class Home extends Component {
           onChange={ this.handleChange }
           onClick={ () => this.getProductsFromApi(inputSearch) }
         />
+        {(results) && (
+          <h1>Nenhum produto foi encontrado</h1>
+
+        )}
         {
           (results) ? (
             results.map((product) => (
@@ -46,17 +54,13 @@ class Home extends Component {
 
           ) : (
           // tentar encontart uma forma de só aparecer depois de clicar
-            <h1>Nenhum produto foi encontrado</h1>
+            <h1
+              data-testid="home-initial-message"
+            >
+              Digite algum termo de pesquisa ou escolha uma categoria.
+            </h1>
           )
         }
-        {(!results) && (
-          <h1
-            data-testid="home-initial-message"
-          >
-            Digite algum termo de pesquisa ou escolha uma categoria.
-          </h1>
-        )}
-
       </div>
     );
   }
