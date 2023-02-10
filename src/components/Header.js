@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 class Header extends Component {
   render() {
-    const { onClick, onChange, value } = this.props;
     return (
       <>
         <label>
