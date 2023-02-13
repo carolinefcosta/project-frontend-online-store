@@ -28,7 +28,7 @@ export default class ProductCard extends Component {
   //  }
 
   render() {
-    const { image, name, price, dataTestId } = this.props;
+    const { image, name, price, dataTestId, onClick } = this.props;
     return (
       <section data-testid={ dataTestId }>
         <img src={ image } alt={ name } />
@@ -36,6 +36,7 @@ export default class ProductCard extends Component {
         <p>{price}</p>
         <button
           data-testid="product-add-to-cart"
+          onClick={ onClick }
         >
           Adicionar ao carrinho
         </button>
