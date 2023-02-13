@@ -34,6 +34,11 @@ export default class ProductCard extends Component {
         <img src={ image } alt={ name } />
         <h2>{name}</h2>
         <p>{price}</p>
+        <button
+          data-testid="product-add-to-cart"
+        >
+          Adicionar ao carrinho
+        </button>
       </section>
     );
   }
