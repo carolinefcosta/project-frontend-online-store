@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 export default class ProductCard extends Component {
   //  state= {
@@ -29,6 +30,7 @@ export default class ProductCard extends Component {
 
   render() {
     const { image, name, price, dataTestId } = this.props;
+    console.log(dataTestId);
     return (
       <section data-testid={ dataTestId }>
         <img src={ image } alt={ name } />

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Category from '../components/Category';
 import Header from '../components/Header';
 import ProductCard from '../components/ProductCard';
 import { getProductsFromCategoryAndQuery,
   getCategories } from '../services/api';
+import ProductDetails from './ProductDetails';
 
 class Home extends Component {
   state = {
@@ -65,13 +67,21 @@ class Home extends Component {
         {
           (results) ? (
             results.map((product) => (
-              <ProductCard
-                dataTestId="product"
-                key={ product.id }
-                image={ product.thumbnail }
-                name={ product.title }
-                price={ product.price }
-              />
+              <div key={ product.id }>
+                <ProductCard
+                  dataTestId="product"
+                  image={ product.thumbnail }
+                  name={ product.title }
+                  price={ product.price }
+                  id={ product.id }
+                />
+                <Link
+                  data-testid="product-detail-link"
+                  to={ `/productDetails/${product.id}` }
+                >
+                  Detalhes
+                </Link>
+              </div>
             ))
 
           ) : (
