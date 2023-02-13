@@ -1,21 +1,46 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { getProductById } from '../services/api';
+import ProductCard from '../components/ProductCard';
 
 class ProductDetails extends Component {
-  // state = {
-  //   image: '',
-  //   title: '',
-  //   price: '',
-  // };
+  state = {
+    details: {},
+  };
+
+  componentDidMount() {
+    this.getDetails();
+  }
+
+  getDetails = async () => {
+    const { match: { params: { id } } } = this.props;
+    const result = await getProductById(id);
+
+    this.setState({
+      details: result,
+    });
+  };
 
   render() {
-    const { image, name, price, id } = this.state;
+    const { history } = this.props;
+    const { details } = this.state;
     return (
-      <section data-testid={ id }>
-        <img src={ image } alt={ name } />
-        <h2>{name}</h2>
-        <p>{price}</p>
-      </section>
+      <>
+        {console.log(details)}
+        <ProductCard
+          image={ details.thumbnail }
+          name={ details.title }
+          price={ details.price }
+        />
+        <button
+          type="button"
+          data-testid="shopping-cart-button"
+          onClick={ () => history.push('/shopping') }
+        >
+          Ir ao Carrinho
+
+        </button>
+      </>
     );
   }
 }

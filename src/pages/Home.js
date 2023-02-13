@@ -5,7 +5,6 @@ import Header from '../components/Header';
 import ProductCard from '../components/ProductCard';
 import { getProductsFromCategoryAndQuery,
   getCategories } from '../services/api';
-import ProductDetails from './ProductDetails';
 
 class Home extends Component {
   state = {
@@ -38,7 +37,6 @@ class Home extends Component {
 
   getProductsFromCategory2 = async (categoryId) => {
     const result = await getProductsFromCategoryAndQuery(categoryId, null);
-    console.log(result);
     this.setState({ resultProducts: result });
   };
 
@@ -85,7 +83,6 @@ class Home extends Component {
             ))
 
           ) : (
-          // tentar encontart uma forma de só aparecer depois de clicar
             <h1
               data-testid="home-initial-message"
             >
