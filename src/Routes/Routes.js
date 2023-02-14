@@ -10,6 +10,10 @@ class Routes extends Component {
     resultProducts: {},
     inputSearch: '',
     listCategory: [],
+    myProducts: {},
+    name: '',
+    price: '',
+    loadingShoppingCart: true,
   };
 
   componentDidMount() {
@@ -42,17 +46,56 @@ class Routes extends Component {
     this.getProductsFromCategory2(target.name);
   };
 
-  // addToCart = () => {
+  auxFunc = (name) => {
+    const { myProducts } = this.state;
+    const bool = Object.keys(myProducts).includes(name);
 
-  // };
+    if (bool) {
+      this.setState((prevState) => ({
+        myProducts: { ...prevState.myProducts, [name]: prevState.myProducts[name] + 1 },
+      }
+      ));
+    } else {
+      this.setState((prevState) => ({
+        myProducts: { ...prevState.myProducts, [name]: 1 },
+      }));
+    }
+  };
+
+  addToCart = (image, name, price) => {
+    this.auxFunc(name);
+    this.setState({
+      image,
+      name,
+      price,
+      loadingShoppingCart: false,
+    });
+    // Adicionar ao localStorage
+  };
 
   render() {
-    const { inputSearch, resultProducts, listCategory } = this.state;
+    const {
+      inputSearch,
+      resultProducts,
+      listCategory,
+      image,
+      name,
+      price,
+      loadingShoppingCart,
+      myProducts } = this.state;
     return (
       <Switch>
         <Route
           path="/shopping"
-          render={ () => <ShoppingCart /> }
+          render={ () => (
+            <ShoppingCart
+              image={ image }
+              name={ name }
+              price={ price }
+              loading={ loadingShoppingCart }
+              myProducts={ myProducts }
+            />
+          ) }
         />
         <Route
           exact
@@ -65,6 +108,7 @@ class Routes extends Component {
               handleChange={ this.handleChange }
               getProductsFromApi={ this.getProductsFromApi }
               getProductsFromCategory={ this.getProductsFromCategory }
+              addToCart={ this.addToCart }
             />
           ) }
         />

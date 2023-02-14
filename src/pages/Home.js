@@ -56,7 +56,9 @@ class Home extends Component {
       listCategory,
       handleChange,
       getProductsFromApi,
-      getProductsFromCategory } = this.props;
+      getProductsFromCategory,
+      addToCart,
+    } = this.props;
     const { results } = resultProducts;
     return (
       <div>
@@ -82,6 +84,7 @@ class Home extends Component {
                 image={ product.thumbnail }
                 name={ product.title }
                 price={ product.price }
+                addToCart={ addToCart }
               />
             ))
 

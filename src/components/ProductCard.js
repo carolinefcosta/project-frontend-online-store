@@ -28,18 +28,20 @@ export default class ProductCard extends Component {
   //  }
 
   render() {
-    const { image, name, price, dataTestId, onClick } = this.props;
+    const { image, name, price, dataTestId, dataTestName, addToCart } = this.props;
     return (
       <section data-testid={ dataTestId }>
         <img src={ image } alt={ name } />
-        <h2>{name}</h2>
+        <h2 data-testid={ dataTestName }>{name}</h2>
         <p>{price}</p>
-        <button
-          data-testid="product-add-to-cart"
-          onClick={ onClick }
-        >
-          Adicionar ao carrinho
-        </button>
+        { addToCart && (
+          <button
+            data-testid="product-add-to-cart"
+            onClick={ () => addToCart(image, name, price) }
+          >
+            Adicionar ao carrinho
+          </button>
+        ) }
       </section>
     );
   }
