@@ -1,42 +1,34 @@
 import React, { Component } from 'react';
-// import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 export default class ProductCard extends Component {
-  //  state= {
-  //    boolDidUpdate: false,
-  //  }
-
-  //  componentDidMount() {
-  //
-  //  }
-
-  //  shouldComponentUpdate(nextProps, nextState) {
-  //
-  //    return true;
-  //  }
-
-  //  componentDidUpdate() {
-  //    const { boolDidUpdate } = this.state;
-  //    if (boolDidUpdate) {
-  //      this.setState({boolDidUpdate: false,}, this.func)
-  //    }
-  //  }
-
-  //  componentDidMount() {
-  //
-  //  }
-
   render() {
-    const { image, name, price, dataTestId, dataTestName, addToCart } = this.props;
+    const {
+      image,
+      name,
+      price,
+      dataTestId,
+      dataTestName,
+      dataTestImage,
+      dataTestPrice,
+      dataTestButton,
+      addToCart } = this.props;
     return (
       <section data-testid={ dataTestId }>
-        <img src={ image } alt={ name } />
+        <img
+          data-testid={ dataTestImage }
+          src={ image }
+          alt={ name }
+        />
         <h2 data-testid={ dataTestName }>{name}</h2>
-        <p>{price}</p>
+        <p
+          data-testid={ dataTestPrice }
+        >
+          {price}
+        </p>
         { addToCart && (
           <button
-            data-testid="product-add-to-cart"
+            data-testid={ dataTestButton }
             onClick={ () => addToCart(image, name, price) }
           >
             Adicionar ao carrinho

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Home from '../pages/Home';
 import ShoppingCart from '../pages/ShoppingCart';
+import ProductDetails from '../pages/ProductDetails';
 import { getProductsFromCategoryAndQuery,
   getCategories } from '../services/api';
 
@@ -85,6 +86,7 @@ class Routes extends Component {
       myProducts } = this.state;
     return (
       <Switch>
+        <Route path="/productDetails/:id" component={ ProductDetails } />
         <Route
           path="/shopping"
           render={ () => (

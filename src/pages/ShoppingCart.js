@@ -17,6 +17,7 @@ class ShoppingCart extends Component {
             <>
               <ProductCard
                 dataTestName="shopping-cart-product-name"
+                dataTestButton="product-add-to-cart"
                 image={ image }
                 name={ name }
                 price={ price }
