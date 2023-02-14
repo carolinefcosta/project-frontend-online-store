@@ -1,62 +1,75 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Category from '../components/Category';
 import Header from '../components/Header';
 import ProductCard from '../components/ProductCard';
-import { getProductsFromCategoryAndQuery,
-  getCategories } from '../services/api';
+// import { getProductsFromCategoryAndQuery,
+//   getCategories } from '../services/api';
 
 class Home extends Component {
-  state = {
-    resultProducts: {},
-    inputSearch: '',
-    listCategory: [],
-  };
+  // state = {
+  //   resultProducts: {},
+  //   inputSearch: '',
+  //   listCategory: [],
+  // };
 
-  componentDidMount() {
-    this.getCategoriesList();
-  }
+  // componentDidMount() {
+  //   this.getCategoriesList();
+  // }
 
-  getCategoriesList = async () => {
-    const list = await getCategories();
-    this.setState({
-      listCategory: list,
-    });
-  };
+  // getCategoriesList = async () => {
+  //   const list = await getCategories();
+  //   this.setState({
+  //     listCategory: list,
+  //   });
+  // };
 
-  handleChange = ({ target }) => {
-    const { name, value } = target;
-    this.setState({ [name]: value });
-  };
+  // handleChange = ({ target }) => {
+  //   const { name, value } = target;
+  //   this.setState({ [name]: value });
+  // };
 
-  getProductsFromApi = async (query) => {
-    const result = await getProductsFromCategoryAndQuery(null, query);
-    console.log(result);
-    this.setState({ resultProducts: result });
-  };
+  // getProductsFromApi = async (query) => {
+  //   const result = await getProductsFromCategoryAndQuery(null, query);
+  //   // console.log(result);
+  //   this.setState({ resultProducts: result });
+  // };
 
-  getProductsFromCategory2 = async (categoryId) => {
-    const result = await getProductsFromCategoryAndQuery(categoryId, null);
-    console.log(result);
-    this.setState({ resultProducts: result });
-  };
+  // getProductsFromCategory2 = async (categoryId) => {
+  //   const result = await getProductsFromCategoryAndQuery(categoryId, null);
+  //   // console.log(result);
+  //   this.setState({ resultProducts: result });
+  // };
 
-  getProductsFromCategory = async ({ target }) => {
-    this.getProductsFromCategory2(target.name);
-  };
+  // getProductsFromCategory = async ({ target }) => {
+  //   this.getProductsFromCategory2(target.name);
+  // };
+
+  // addToCart = () => {
+  //   console.log({ resultProducts: { target } });
+  //   this.setState
+  // };
 
   render() {
-    const { inputSearch, resultProducts, listCategory } = this.state;
+    const { inputSearch,
+      resultProducts,
+      listCategory,
+      handleChange,
+      getProductsFromApi,
+      getProductsFromCategory,
+      addToCart,
+    } = this.props;
     const { results } = resultProducts;
     return (
       <div>
         <Header
           value={ inputSearch }
-          onChange={ this.handleChange }
-          onClick={ () => this.getProductsFromApi(inputSearch) }
+          onChange={ handleChange }
+          onClick={ () => getProductsFromApi(inputSearch) }
         />
         <Category
           listCategory={ listCategory }
-          onClick={ this.getProductsFromCategory }
+          onClick={ getProductsFromCategory }
         />
         {(!results) && (
           <h1>Nenhum produto foi encontrado</h1>
@@ -71,6 +84,7 @@ class Home extends Component {
                 image={ product.thumbnail }
                 name={ product.title }
                 price={ product.price }
+                addToCart={ addToCart }
               />
             ))
 
@@ -87,5 +101,11 @@ class Home extends Component {
     );
   }
 }
+
+Home.propTypes = {
+  inputSearch: PropTypes.func,
+  resultProducts: PropTypes.objectOf,
+  listCategory: PropTypes.arrayOf,
+}.isRequired;
 
 export default Home;
