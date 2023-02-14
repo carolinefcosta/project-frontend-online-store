@@ -83,10 +83,20 @@ class Routes extends Component {
       name,
       price,
       loadingShoppingCart,
-      myProducts } = this.state;
+      myProducts,
+    } = this.state;
     return (
       <Switch>
-        <Route path="/productDetails/:id" component={ ProductDetails } />
+        <Route
+          path="/productDetails/:id"
+          render={
+            (props) => (<ProductDetails
+              { ...props }
+              addToCart={ this.addToCart }
+            />)
+          }
+        />
+
         <Route
           path="/shopping"
           render={ () => (

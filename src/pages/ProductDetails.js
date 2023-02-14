@@ -22,7 +22,7 @@ class ProductDetails extends Component {
   };
 
   render() {
-    const { history } = this.props;
+    const { history, addToCart } = this.props;
     const { details } = this.state;
     return (
       <>
@@ -42,6 +42,13 @@ class ProductDetails extends Component {
         >
           Ir ao Carrinho
 
+        </button>
+        <button
+          type="button"
+          data-testid="product-detail-add-to-cart"
+          onClick={ () => addToCart(details.thumbnail, details.title, details.price) }
+        >
+          Adicionar ao carrinho
         </button>
       </>
     );
