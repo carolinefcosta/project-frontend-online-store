@@ -100,7 +100,6 @@ class Home extends Component {
             ))
 
           ) : (
-          // tentar encontart uma forma de só aparecer depois de clicar
             <h1
               data-testid="home-initial-message"
             >
