@@ -30,10 +30,9 @@ class ProductDetails extends Component {
           dataTestPrice="product-detail-price"
           dataTestImage="product-detail-image"
           dataTestName="product-detail-name"
-          dataTestButton="shopping-cart-button"
-          image={ details.thumbnail }
-          name={ details.title }
-          price={ details.price }
+          dataTestButton="product-detail-add-to-cart"
+          product={ details }
+          addToCart={ addToCart }
         />
         <button
           type="button"
@@ -42,13 +41,6 @@ class ProductDetails extends Component {
         >
           Ir ao Carrinho
 
-        </button>
-        <button
-          type="button"
-          data-testid="product-detail-add-to-cart"
-          onClick={ () => addToCart(details.thumbnail, details.title, details.price) }
-        >
-          Adicionar ao carrinho
         </button>
       </>
     );
