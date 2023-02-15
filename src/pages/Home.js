@@ -4,54 +4,8 @@ import PropTypes from 'prop-types';
 import Category from '../components/Category';
 import Header from '../components/Header';
 import ProductCard from '../components/ProductCard';
-// import { getProductsFromCategoryAndQuery,
-//   getCategories } from '../services/api';
-// import ProductDetails from './ProductDetails';
 
 class Home extends Component {
-  // state = {
-  //   resultProducts: {},
-  //   inputSearch: '',
-  //   listCategory: [],
-  // };
-
-  // componentDidMount() {
-  //   this.getCategoriesList();
-  // }
-
-  // getCategoriesList = async () => {
-  //   const list = await getCategories();
-  //   this.setState({
-  //     listCategory: list,
-  //   });
-  // };
-
-  // handleChange = ({ target }) => {
-  //   const { name, value } = target;
-  //   this.setState({ [name]: value });
-  // };
-
-  // getProductsFromApi = async (query) => {
-  //   const result = await getProductsFromCategoryAndQuery(null, query);
-  //   // console.log(result);
-  //   this.setState({ resultProducts: result });
-  // };
-
-  // getProductsFromCategory2 = async (categoryId) => {
-  //   const result = await getProductsFromCategoryAndQuery(categoryId, null);
-  //   // console.log(result);
-  //   this.setState({ resultProducts: result });
-  // };
-
-  // getProductsFromCategory = async ({ target }) => {
-  //   this.getProductsFromCategory2(target.name);
-  // };
-
-  // addToCart = () => {
-  //   console.log({ resultProducts: { target } });
-  //   this.setState
-  // };
-
   render() {
     const { inputSearch,
       resultProducts,
@@ -83,11 +37,8 @@ class Home extends Component {
                 <ProductCard
                   dataTestId="product"
                   dataTestButton="product-add-to-cart"
-                  image={ product.thumbnail }
-                  name={ product.title }
-                  price={ product.price }
-                  id={ product.id }
                   addToCart={ addToCart }
+                  product={ product }
                 />
                 <Link
                   data-testid="product-detail-link"
@@ -115,6 +66,10 @@ Home.propTypes = {
   inputSearch: PropTypes.func,
   resultProducts: PropTypes.objectOf,
   listCategory: PropTypes.arrayOf,
+  handleChange: PropTypes.func,
+  getProductsFromApi: PropTypes.func,
+  getProductsFromCategory: PropTypes.func,
+  addToCart: PropTypes.func,
 }.isRequired;
 
 export default Home;

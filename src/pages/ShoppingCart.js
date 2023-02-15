@@ -4,7 +4,19 @@ import ProductCard from '../components/ProductCard';
 
 class ShoppingCart extends Component {
   state = {
-    // cartList: true,
+    storageList: [],
+  };
+
+  componentDidMount() {
+    this.getLocalStorage('productList');
+  }
+
+  getLocalStorage = (chave) => {
+    const result = JSON.parse(localStorage.getItem(chave));
+    this.setState({
+      storageList: result,
+    });
+    console.log(result);
   };
 
   render() {
@@ -14,22 +26,21 @@ class ShoppingCart extends Component {
       productList,
       increaseDecrazy,
       removeFromCart } = this.props;
-    // const { cartList } = this.state;
+    const { storageList } = this.state;
     return (
       <div>
+        {console.log(storageList)}
         {
           !loading ? (
             <>
-              {productList.map((product) => (
+              {storageList.map((product) => (
                 <div
                   key={ product.id }
                 >
                   <ProductCard
                     dataTestName="shopping-cart-product-name"
                     dataTestButton="product-add-to-cart"
-                    image={ product.thumbnail }
-                    name={ product.title }
-                    price={ product.price }
+                    product={ product }
                   />
                   <p data-testid="shopping-cart-product-quantity">
                     { myProducts[product.title] }
@@ -37,14 +48,14 @@ class ShoppingCart extends Component {
                   <button
                     data-testid="product-decrease-quantity"
                     type="button"
-                    onClick={ async () => increaseDecrazy(product.title, '-') }
+                    onClick={ () => increaseDecrazy(product.title, '-') }
                   >
                     -
                   </button>
                   <button
                     data-testid="product-increase-quantity"
                     type="button"
-                    onClick={ async () => increaseDecrazy(product.title, '+') }
+                    onClick={ () => increaseDecrazy(product.title, '+') }
                   >
                     +
                   </button>

@@ -12,8 +12,6 @@ class Routes extends Component {
     inputSearch: '',
     listCategory: [],
     myProducts: {},
-    name: '',
-    price: '',
     loadingShoppingCart: true,
     productList: [],
   };
@@ -21,6 +19,15 @@ class Routes extends Component {
   componentDidMount() {
     this.getCategoriesList();
   }
+
+  setLocalStorage = (chave, value) => {
+    const arrayStorage = JSON.parse(localStorage.getItem(chave));
+    if (!arrayStorage) {
+      localStorage.setItem(chave, JSON.stringify([]));
+    }
+    const arrayStorage2 = [...arrayStorage, value];
+    localStorage.setItem(chave, JSON.stringify(arrayStorage2));
+  };
 
   getCategoriesList = async () => {
     const list = await getCategories();
@@ -48,26 +55,19 @@ class Routes extends Component {
     this.getProductsFromCategory2(target.name);
   };
 
-  increaseDecrazy = async (name, operator) => {
+  increaseDecrazy = (name, operator) => {
     const { myProducts } = this.state;
     const bool = Object.keys(myProducts).includes(name);
 
-    if (bool && myProducts[name] > 0) {
-      switch (operator) {
-      case '-':
-        this.setState((prevState) => ({
-          myProducts: { ...prevState.myProducts, [name]: prevState.myProducts[name] - 1 },
-        }
-        ));
-        break;
-      case '+':
-        this.setState((prevState) => ({
-          myProducts: { ...prevState.myProducts, [name]: prevState.myProducts[name] + 1 },
-        }
-        ));
-        break;
-      default:
+    if (bool && myProducts[name] > 1 && operator === '-') {
+      this.setState((prevState) => ({
+        myProducts: { ...prevState.myProducts, [name]: prevState.myProducts[name] - 1 },
       }
+      ));
+    } else if (bool && myProducts[name] > 0 && operator === '+') {
+      this.setState((prevState) => ({
+        myProducts: { ...prevState.myProducts, [name]: prevState.myProducts[name] + 1 },
+      }));
     } else {
       this.setState((prevState) => ({
         myProducts: { ...prevState.myProducts, [name]: 1 },
@@ -75,56 +75,39 @@ class Routes extends Component {
     }
   };
 
-  addToCart = async (image, name, price) => {
+  addToCart = (name) => {
     // const product = {
     //   image,
     //   name,
     //   price,
     //   quantity: 1,
     // };
-    // console.log(product);
-    // const { productList, quantity } = this.state;
-    // this.setState({
-    //   productList: [...productList, product],
-    // });
-    // const trueOrFalse = productList.some((produto) => (
-    //   produto.name === name
-    // ));
-    // console.log(trueOrFalse);
-    // if (trueOrFalse) {
-    //   this.setState((prevState) => ({
-    //     quantity: ,
-    //   }));
-    // }
     const { resultProducts, productList } = this.state;
     const dataFilter = resultProducts.filter((product) => product.title === name)
       .reduce((acc, curr) => curr, {});
-    await this.increaseDecrazy(name, '+');
+    this.increaseDecrazy(name);
     const trueOrFalse = productList.some((produto) => (
       produto.title === name
     ));
     if (!trueOrFalse) {
       this.setState({
-        image,
-        name,
-        price,
         loadingShoppingCart: false,
         productList: [...productList, dataFilter],
       });
     }
-
-    localStorage.setItem(`${dataFilter.title}`, JSON.stringify(dataFilter));
-    // Adicionar ao localStorage
+    this.setLocalStorage('productList', dataFilter);
   };
 
   removeFromCart = (name) => {
-    const { productList } = this.state;
+    const { productList, myProducts } = this.state;
     const result = productList.filter((product) => product.title !== name);
-    // const result2 = productList.filter((product) => product.title !== name);
+    const result2 = myProducts;
+    delete result2[name];
     this.setState({
       productList: result,
+      myProducts: result2,
     });
-    localStorage.removeItem(name);
+    // localStorage.removeItem(name);
   };
 
   render() {
@@ -132,9 +115,6 @@ class Routes extends Component {
       inputSearch,
       resultProducts,
       listCategory,
-      image,
-      name,
-      price,
       loadingShoppingCart,
       myProducts,
       productList,
@@ -155,9 +135,6 @@ class Routes extends Component {
           path="/shopping"
           render={ () => (
             <ShoppingCart
-              image={ image }
-              name={ name }
-              price={ price }
               loading={ loadingShoppingCart }
               myProducts={ myProducts }
               productList={ productList }
