@@ -61,7 +61,6 @@ class Home extends Component {
       getProductsFromCategory,
       addToCart,
     } = this.props;
-    const { results } = resultProducts;
     return (
       <div>
         <Header
@@ -73,13 +72,13 @@ class Home extends Component {
           listCategory={ listCategory }
           onClick={ getProductsFromCategory }
         />
-        {(!results) && (
+        {(resultProducts.length < 1) && (
           <h1>Nenhum produto foi encontrado</h1>
 
         )}
         {
-          (results) ? (
-            results.map((product) => (
+          (!resultProducts.length < 1) ? (
+            resultProducts.map((product) => (
               <div key={ product.id }>
                 <ProductCard
                   dataTestId="product"

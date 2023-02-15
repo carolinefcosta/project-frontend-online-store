@@ -8,23 +8,55 @@ class ShoppingCart extends Component {
   };
 
   render() {
-    const { image, name, price, loading, myProducts } = this.props;
+    const {
+      loading,
+      myProducts,
+      productList,
+      increaseDecrazy,
+      removeFromCart } = this.props;
     // const { cartList } = this.state;
     return (
       <div>
         {
           !loading ? (
             <>
-              <ProductCard
-                dataTestName="shopping-cart-product-name"
-                dataTestButton="product-add-to-cart"
-                image={ image }
-                name={ name }
-                price={ price }
-              />
-              <p data-testid="shopping-cart-product-quantity">
-                { myProducts[name] }
-              </p>
+              {productList.map((product) => (
+                <div
+                  key={ product.id }
+                >
+                  <ProductCard
+                    dataTestName="shopping-cart-product-name"
+                    dataTestButton="product-add-to-cart"
+                    image={ product.thumbnail }
+                    name={ product.title }
+                    price={ product.price }
+                  />
+                  <p data-testid="shopping-cart-product-quantity">
+                    { myProducts[product.title] }
+                  </p>
+                  <button
+                    data-testid="product-decrease-quantity"
+                    type="button"
+                    onClick={ async () => increaseDecrazy(product.title, '-') }
+                  >
+                    -
+                  </button>
+                  <button
+                    data-testid="product-increase-quantity"
+                    type="button"
+                    onClick={ async () => increaseDecrazy(product.title, '+') }
+                  >
+                    +
+                  </button>
+                  <button
+                    data-testid="remove-product"
+                    type="button"
+                    onClick={ () => removeFromCart(product.title) }
+                  >
+                    x
+                  </button>
+                </div>
+              ))}
             </>)
             : (
               <h1

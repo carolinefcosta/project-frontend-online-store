@@ -8,13 +8,14 @@ import { getProductsFromCategoryAndQuery,
 
 class Routes extends Component {
   state = {
-    resultProducts: {},
+    resultProducts: [],
     inputSearch: '',
     listCategory: [],
     myProducts: {},
     name: '',
     price: '',
     loadingShoppingCart: true,
+    productList: [],
   };
 
   componentDidMount() {
@@ -35,27 +36,38 @@ class Routes extends Component {
 
   getProductsFromApi = async (query) => {
     const result = await getProductsFromCategoryAndQuery(null, query);
-    this.setState({ resultProducts: result });
+    this.setState({ resultProducts: [...result.results] });
   };
 
   getProductsFromCategory2 = async (categoryId) => {
     const result = await getProductsFromCategoryAndQuery(categoryId, null);
-    this.setState({ resultProducts: result });
+    this.setState({ resultProducts: [...result.results] });
   };
 
   getProductsFromCategory = async ({ target }) => {
     this.getProductsFromCategory2(target.name);
   };
 
-  auxFunc = (name) => {
+  increaseDecrazy = async (name, operator) => {
     const { myProducts } = this.state;
     const bool = Object.keys(myProducts).includes(name);
 
-    if (bool) {
-      this.setState((prevState) => ({
-        myProducts: { ...prevState.myProducts, [name]: prevState.myProducts[name] + 1 },
+    if (bool && myProducts[name] > 0) {
+      switch (operator) {
+      case '-':
+        this.setState((prevState) => ({
+          myProducts: { ...prevState.myProducts, [name]: prevState.myProducts[name] - 1 },
+        }
+        ));
+        break;
+      case '+':
+        this.setState((prevState) => ({
+          myProducts: { ...prevState.myProducts, [name]: prevState.myProducts[name] + 1 },
+        }
+        ));
+        break;
+      default:
       }
-      ));
     } else {
       this.setState((prevState) => ({
         myProducts: { ...prevState.myProducts, [name]: 1 },
@@ -63,15 +75,53 @@ class Routes extends Component {
     }
   };
 
-  addToCart = (image, name, price) => {
-    this.auxFunc(name);
-    this.setState({
-      image,
-      name,
-      price,
-      loadingShoppingCart: false,
-    });
+  addToCart = async (image, name, price) => {
+    // const product = {
+    //   image,
+    //   name,
+    //   price,
+    //   quantity: 1,
+    // };
+    // console.log(product);
+    // const { productList, quantity } = this.state;
+    // this.setState({
+    //   productList: [...productList, product],
+    // });
+    // const trueOrFalse = productList.some((produto) => (
+    //   produto.name === name
+    // ));
+    // console.log(trueOrFalse);
+    // if (trueOrFalse) {
+    //   this.setState((prevState) => ({
+    //     quantity: ,
+    //   }));
+    // }
+    const { resultProducts, productList } = this.state;
+    const dataFilter = resultProducts.filter((product) => product.title === name)
+      .reduce((acc, curr) => curr, {});
+    await this.increaseDecrazy(name, '+');
+    const trueOrFalse = productList.some((produto) => (
+      produto.title === name
+    ));
+    if (!trueOrFalse) {
+      this.setState({
+        image,
+        name,
+        price,
+        loadingShoppingCart: false,
+        productList: [...productList, dataFilter],
+      });
+    }
     // Adicionar ao localStorage
+  };
+
+  removeFromCart = (name) => {
+    const { productList } = this.state;
+    const result = productList.filter((product) => product.title !== name);
+    // const result2 = productList.filter((product) => product.title !== name);
+    this.setState({
+      productList: result,
+    });
   };
 
   render() {
@@ -84,6 +134,7 @@ class Routes extends Component {
       price,
       loadingShoppingCart,
       myProducts,
+      productList,
     } = this.state;
     return (
       <Switch>
@@ -106,6 +157,9 @@ class Routes extends Component {
               price={ price }
               loading={ loadingShoppingCart }
               myProducts={ myProducts }
+              productList={ productList }
+              increaseDecrazy={ this.increaseDecrazy }
+              removeFromCart={ this.removeFromCart }
             />
           ) }
         />
