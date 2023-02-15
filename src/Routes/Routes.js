@@ -112,6 +112,8 @@ class Routes extends Component {
         productList: [...productList, dataFilter],
       });
     }
+
+    localStorage.setItem(`${dataFilter.title}`, JSON.stringify(dataFilter));
     // Adicionar ao localStorage
   };
 
@@ -122,6 +124,7 @@ class Routes extends Component {
     this.setState({
       productList: result,
     });
+    localStorage.removeItem(name);
   };
 
   render() {
