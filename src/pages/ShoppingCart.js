@@ -23,7 +23,6 @@ class ShoppingCart extends Component {
     const {
       loading,
       myProducts,
-      productList,
       increaseDecrazy,
       removeFromCart } = this.props;
     const { storageList } = this.state;
