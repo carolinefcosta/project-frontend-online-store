@@ -48,26 +48,19 @@ class Routes extends Component {
     this.getProductsFromCategory2(target.name);
   };
 
-  increaseDecrazy = async (name, operator) => {
+  increaseDecrazy = (name, operator) => {
     const { myProducts } = this.state;
     const bool = Object.keys(myProducts).includes(name);
 
-    if (bool && myProducts[name] > 0) {
-      switch (operator) {
-      case '-':
-        this.setState((prevState) => ({
-          myProducts: { ...prevState.myProducts, [name]: prevState.myProducts[name] - 1 },
-        }
-        ));
-        break;
-      case '+':
-        this.setState((prevState) => ({
-          myProducts: { ...prevState.myProducts, [name]: prevState.myProducts[name] + 1 },
-        }
-        ));
-        break;
-      default:
+    if (bool && myProducts[name] > 1 && operator === '-') {
+      this.setState((prevState) => ({
+        myProducts: { ...prevState.myProducts, [name]: prevState.myProducts[name] - 1 },
       }
+      ));
+    } else if (bool && myProducts[name] > 0 && operator === '+') {
+      this.setState((prevState) => ({
+        myProducts: { ...prevState.myProducts, [name]: prevState.myProducts[name] + 1 },
+      }));
     } else {
       this.setState((prevState) => ({
         myProducts: { ...prevState.myProducts, [name]: 1 },
@@ -75,7 +68,7 @@ class Routes extends Component {
     }
   };
 
-  addToCart = async (image, name, price) => {
+  addToCart = (image, name, price) => {
     // const product = {
     //   image,
     //   name,
@@ -99,7 +92,7 @@ class Routes extends Component {
     const { resultProducts, productList } = this.state;
     const dataFilter = resultProducts.filter((product) => product.title === name)
       .reduce((acc, curr) => curr, {});
-    await this.increaseDecrazy(name, '+');
+    this.increaseDecrazy(name);
     const trueOrFalse = productList.some((produto) => (
       produto.title === name
     ));
@@ -116,11 +109,13 @@ class Routes extends Component {
   };
 
   removeFromCart = (name) => {
-    const { productList } = this.state;
+    const { productList, myProducts } = this.state;
     const result = productList.filter((product) => product.title !== name);
-    // const result2 = productList.filter((product) => product.title !== name);
+    const result2 = myProducts;
+    delete result2[name];
     this.setState({
       productList: result,
+      myProducts: result2,
     });
   };
 
