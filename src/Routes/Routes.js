@@ -11,8 +11,6 @@ class Routes extends Component {
     resultProducts: [],
     inputSearch: '',
     listCategory: [],
-    myProducts: {},
-    loadingShoppingCart: true,
     productList: [],
   };
 
@@ -25,8 +23,9 @@ class Routes extends Component {
     if (!arrayStorage) {
       localStorage.setItem(chave, JSON.stringify([]));
     }
-    const arrayStorage2 = [...arrayStorage, value];
-    localStorage.setItem(chave, JSON.stringify(arrayStorage2));
+    const arrayStorage2 = JSON.parse(localStorage.getItem(chave));
+    const arrayStorage3 = [...arrayStorage2, value];
+    localStorage.setItem(chave, JSON.stringify(arrayStorage3));
   };
 
   getCategoriesList = async () => {
@@ -56,23 +55,26 @@ class Routes extends Component {
   };
 
   increaseDecrazy = (name, operator) => {
-    const { myProducts } = this.state;
-    const bool = Object.keys(myProducts).includes(name);
-
-    if (bool && myProducts[name] > 1 && operator === '-') {
-      this.setState((prevState) => ({
-        myProducts: { ...prevState.myProducts, [name]: prevState.myProducts[name] - 1 },
+    const { productList } = this.state;
+    const dataFilter = productList.filter((product) => product.title === name)
+      .reduce((acc, curr) => curr, {});
+    console.log(dataFilter);
+    const dataDecrazy = productList.map((product) => {
+      if (product === dataFilter) {
+        if (operator === '-' && product.quantity > 1) {
+          product.quantity -= 1;
+          return product;
+        } if (operator === '+' && product.quantity > 0) {
+          product.quantity += 1;
+          return product;
+        }
       }
-      ));
-    } else if (bool && myProducts[name] > 0 && operator === '+') {
-      this.setState((prevState) => ({
-        myProducts: { ...prevState.myProducts, [name]: prevState.myProducts[name] + 1 },
-      }));
-    } else {
-      this.setState((prevState) => ({
-        myProducts: { ...prevState.myProducts, [name]: 1 },
-      }));
-    }
+      return product;
+    });
+    this.setState({
+      productList: dataDecrazy,
+    });
+    console.log(productList);
   };
 
   addToCart = (name) => {
@@ -85,17 +87,24 @@ class Routes extends Component {
     const { resultProducts, productList } = this.state;
     const dataFilter = resultProducts.filter((product) => product.title === name)
       .reduce((acc, curr) => curr, {});
-    this.increaseDecrazy(name);
+    const dataFilter2 = { ...dataFilter, quantity: 1 };
+    console.log(dataFilter);
+    this.increaseDecrazy(name, dataFilter);
     const trueOrFalse = productList.some((produto) => (
       produto.title === name
     ));
     if (!trueOrFalse) {
       this.setState({
-        loadingShoppingCart: false,
-        productList: [...productList, dataFilter],
+        productList: [...productList, dataFilter2],
       });
     }
-    this.setLocalStorage('productList', dataFilter);
+    this.setLocalStorage('productList', dataFilter2);
+  };
+
+  localStorageHandler = (value) => {
+    this.setState({
+      productList: [value],
+    });
   };
 
   removeFromCart = (name) => {
@@ -140,6 +149,7 @@ class Routes extends Component {
               productList={ productList }
               increaseDecrazy={ this.increaseDecrazy }
               removeFromCart={ this.removeFromCart }
+              localStorageHandler={ () => this.localStorageHandler() }
             />
           ) }
         />

@@ -3,36 +3,28 @@ import PropTypes from 'prop-types';
 import ProductCard from '../components/ProductCard';
 
 class ShoppingCart extends Component {
-  state = {
-    storageList: [],
-  };
-
   componentDidMount() {
     this.getLocalStorage('productList');
   }
 
   getLocalStorage = (chave) => {
+    const { localStorageHandler } = this.props;
     const result = JSON.parse(localStorage.getItem(chave));
-    this.setState({
-      storageList: result,
-    });
-    console.log(result);
+    localStorageHandler(result);
   };
 
   render() {
     const {
-      loading,
-      myProducts,
       increaseDecrazy,
-      removeFromCart } = this.props;
-    const { storageList } = this.state;
+      removeFromCart,
+      productList } = this.props;
     return (
       <div>
-        {console.log(storageList)}
+        {console.log(productList)}
         {
-          !loading ? (
+          (!productList[0]) ? (
             <>
-              {storageList.map((product) => (
+              {productList.map((product) => (
                 <div
                   key={ product.id }
                 >
@@ -41,9 +33,9 @@ class ShoppingCart extends Component {
                     dataTestButton="product-add-to-cart"
                     product={ product }
                   />
-                  <p data-testid="shopping-cart-product-quantity">
-                    { myProducts[product.title] }
-                  </p>
+                  {/* <p data-testid="shopping-cart-product-quantity">
+                    { product }
+                  </p> */}
                   <button
                     data-testid="product-decrease-quantity"
                     type="button"
@@ -58,13 +50,13 @@ class ShoppingCart extends Component {
                   >
                     +
                   </button>
-                  <button
+                  {/* <button
                     data-testid="remove-product"
                     type="button"
                     onClick={ () => removeFromCart(product.title) }
                   >
                     x
-                  </button>
+                  </button> */}
                 </div>
               ))}
             </>)
