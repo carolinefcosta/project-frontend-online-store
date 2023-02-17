@@ -20,9 +20,8 @@ class ShoppingCart extends Component {
       productList } = this.props;
     return (
       <div>
-        {console.log(productList)}
         {
-          (!productList[0]) ? (
+          (productList) ? (
             <>
               {productList.map((product) => (
                 <div
@@ -33,9 +32,9 @@ class ShoppingCart extends Component {
                     dataTestButton="product-add-to-cart"
                     product={ product }
                   />
-                  {/* <p data-testid="shopping-cart-product-quantity">
-                    { product }
-                  </p> */}
+                  <p data-testid="shopping-cart-product-quantity">
+                    { product.quantity }
+                  </p>
                   <button
                     data-testid="product-decrease-quantity"
                     type="button"
@@ -50,13 +49,13 @@ class ShoppingCart extends Component {
                   >
                     +
                   </button>
-                  {/* <button
+                  <button
                     data-testid="remove-product"
                     type="button"
                     onClick={ () => removeFromCart(product.title) }
                   >
                     x
-                  </button> */}
+                  </button>
                 </div>
               ))}
             </>)

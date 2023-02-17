@@ -28,6 +28,12 @@ class Routes extends Component {
     localStorage.setItem(chave, JSON.stringify(arrayStorage3));
   };
 
+  removeFromLocalStorage = (name, chave) => {
+    const arrayStorage = JSON.parse(localStorage.getItem(chave));
+    const result = arrayStorage.filter((product) => product.title !== name);
+    localStorage.setItem(chave, JSON.stringify(result));
+  };
+
   getCategoriesList = async () => {
     const list = await getCategories();
     this.setState({
@@ -103,20 +109,17 @@ class Routes extends Component {
 
   localStorageHandler = (value) => {
     this.setState({
-      productList: [value],
+      productList: value,
     });
   };
 
   removeFromCart = (name) => {
-    const { productList, myProducts } = this.state;
+    const { productList } = this.state;
     const result = productList.filter((product) => product.title !== name);
-    const result2 = myProducts;
-    delete result2[name];
     this.setState({
       productList: result,
-      myProducts: result2,
     });
-    // localStorage.removeItem(name);
+    this.removeFromLocalStorage(name, 'productList');
   };
 
   render() {
@@ -149,7 +152,7 @@ class Routes extends Component {
               productList={ productList }
               increaseDecrazy={ this.increaseDecrazy }
               removeFromCart={ this.removeFromCart }
-              localStorageHandler={ () => this.localStorageHandler() }
+              localStorageHandler={ this.localStorageHandler }
             />
           ) }
         />
