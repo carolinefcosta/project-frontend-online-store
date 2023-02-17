@@ -3,28 +3,61 @@ import PropTypes from 'prop-types';
 import ProductCard from '../components/ProductCard';
 
 class ShoppingCart extends Component {
-  state = {
-    // cartList: true,
+  componentDidMount() {
+    this.getLocalStorage('productList');
+  }
+
+  getLocalStorage = (chave) => {
+    const { localStorageHandler } = this.props;
+    const result = JSON.parse(localStorage.getItem(chave));
+    localStorageHandler(result);
   };
 
   render() {
-    const { image, name, price, loading, myProducts } = this.props;
-    // const { cartList } = this.state;
+    const {
+      increaseDecrazy,
+      removeFromCart,
+      productList } = this.props;
     return (
       <div>
         {
-          !loading ? (
+          (productList) ? (
             <>
-              <ProductCard
-                dataTestName="shopping-cart-product-name"
-                dataTestButton="product-add-to-cart"
-                image={ image }
-                name={ name }
-                price={ price }
-              />
-              <p data-testid="shopping-cart-product-quantity">
-                { myProducts[name] }
-              </p>
+              {productList.map((product) => (
+                <div
+                  key={ product.id }
+                >
+                  <ProductCard
+                    dataTestName="shopping-cart-product-name"
+                    dataTestButton="product-add-to-cart"
+                    product={ product }
+                  />
+                  <p data-testid="shopping-cart-product-quantity">
+                    { product.quantity }
+                  </p>
+                  <button
+                    data-testid="product-decrease-quantity"
+                    type="button"
+                    onClick={ () => increaseDecrazy(product.title, '-') }
+                  >
+                    -
+                  </button>
+                  <button
+                    data-testid="product-increase-quantity"
+                    type="button"
+                    onClick={ () => increaseDecrazy(product.title, '+') }
+                  >
+                    +
+                  </button>
+                  <button
+                    data-testid="remove-product"
+                    type="button"
+                    onClick={ () => removeFromCart(product.title) }
+                  >
+                    x
+                  </button>
+                </div>
+              ))}
             </>)
             : (
               <h1

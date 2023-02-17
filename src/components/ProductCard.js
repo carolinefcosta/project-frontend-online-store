@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 export default class ProductCard extends Component {
   render() {
     const {
-      image,
-      name,
-      price,
+      product,
       dataTestId,
       dataTestName,
       dataTestImage,
@@ -17,19 +15,20 @@ export default class ProductCard extends Component {
       <section data-testid={ dataTestId }>
         <img
           data-testid={ dataTestImage }
-          src={ image }
-          alt={ name }
+          src={ product.thumbnail }
+          alt={ product.title }
         />
-        <h2 data-testid={ dataTestName }>{name}</h2>
+        <h2 data-testid={ dataTestName }>{product.title}</h2>
         <p
           data-testid={ dataTestPrice }
         >
-          {price}
+          {product.price}
         </p>
         { addToCart && (
           <button
+            type="button"
             data-testid={ dataTestButton }
-            onClick={ () => addToCart(image, name, price) }
+            onClick={ () => addToCart(product.title) }
           >
             Adicionar ao carrinho
           </button>
@@ -40,7 +39,11 @@ export default class ProductCard extends Component {
 }
 
 ProductCard.propTypes = {
-  name: PropTypes.string,
-  image: PropTypes.string,
-  price: PropTypes.string,
+  product: PropTypes.arrayOf(),
+  dataTestId: PropTypes.string,
+  dataTestName: PropTypes.string,
+  dataTestImage: PropTypes.string,
+  dataTestPrice: PropTypes.string,
+  dataTestButton: PropTypes.string,
+  addToCart: PropTypes.func,
 }.isRequired;

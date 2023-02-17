@@ -22,7 +22,7 @@ class ProductDetails extends Component {
   };
 
   render() {
-    const { history } = this.props;
+    const { history, addToCart } = this.props;
     const { details } = this.state;
     return (
       <>
@@ -30,10 +30,9 @@ class ProductDetails extends Component {
           dataTestPrice="product-detail-price"
           dataTestImage="product-detail-image"
           dataTestName="product-detail-name"
-          dataTestButton="shopping-cart-button"
-          image={ details.thumbnail }
-          name={ details.title }
-          price={ details.price }
+          dataTestButton="product-detail-add-to-cart"
+          product={ details }
+          addToCart={ addToCart }
         />
         <button
           type="button"
