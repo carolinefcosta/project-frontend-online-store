@@ -1,14 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../styles/Category.css';
 
 class Category extends React.Component {
   render() {
     const { listCategory, onClick } = this.props;
     return (
-      <div>
-        <p>Categorias</p>
+      <aside className="div-category">
+        <div>
+          <p className="p-category">Categorias</p>
+        </div>
         { listCategory.map((item) => (
           <button
+            className="button-category"
             type="button"
             key={ item.id }
             data-testid="category"
@@ -17,7 +21,7 @@ class Category extends React.Component {
           >
             { item.name }
           </button>)) }
-      </div>
+      </aside>
     );
   }
 }

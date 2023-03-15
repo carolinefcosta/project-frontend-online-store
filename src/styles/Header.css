@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
+.section-header {
+  justify-content: space-between;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 5px;
+  height: 80px;
+  border: none;
+  width: 99%;
+  /* border-bottom: 1px solid rgba(71, 68, 68, 0.795); */
+  box-shadow: 0px 0px 10px 8px rgba(189, 185, 185, 0.658); 
+}
+
+.logo-compras {
+  display: flex;
+  height: 80px;
+  border-radius: 30%;
+}
+
+.div-img-h1 {
+  display: flex;
+}
+
+.h1-online-store {
+  margin-top: -11px;
+}
+
+.h3 {
+  margin-top: -15px;
+}
+
+.input-search {
+  font-family: 'Poppins', sans-serif;
+  width: 300px;
+  margin-left: -100px;
+  margin-top: 20px;
+  height: 30px;
+  border: none;
+  box-shadow: 0px 0px 10px 8px rgba(114, 110, 110, 0.425);
+}
+
+.button-header {
+  font-family: 'Poppins', sans-serif;
+  width: 60px;
+  height: 32px;
+  border: none;
+  border-radius: 3px;
+  background-color: rgba(196, 75, 149, 0.856);
+  /* box-shadow: 0px 0px 10px 0px rgba(189, 185, 185, 0.658); */
+}
+
+.button-header:hover {
+  cursor: pointer;
+}
+
+.logo-carrinho {
+  display: flex;
+  height: 80px;
+  border-radius: 30%;
+}
