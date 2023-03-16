@@ -28,6 +28,12 @@
   width: 150px;
   margin: 15px;
   padding: 5px;
+  overflow: hidden;
+}
+
+.home-product:hover {
+  -webkit-transform: scale(1.5);
+  transform: scale(1.1);
 }
 
 .home-details {
