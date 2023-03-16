@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getProductById } from '../services/api';
 import ProductCard from '../components/ProductCard';
+import '../styles/ProductDetails.css';
 
 class ProductDetails extends Component {
   state = {
@@ -25,7 +26,7 @@ class ProductDetails extends Component {
     const { history, addToCart } = this.props;
     const { details } = this.state;
     return (
-      <>
+      <div className="div-product-details">
         <ProductCard
           dataTestPrice="product-detail-price"
           dataTestImage="product-detail-image"
@@ -35,6 +36,7 @@ class ProductDetails extends Component {
           addToCart={ addToCart }
         />
         <button
+          className="button-product-details"
           type="button"
           data-testid="shopping-cart-button"
           onClick={ () => history.push('/shopping') }
@@ -42,7 +44,7 @@ class ProductDetails extends Component {
           Ir ao Carrinho
 
         </button>
-      </>
+      </div>
     );
   }
 }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import '../styles/ProductCard.css';
 
 export default class ProductCard extends Component {
   render() {
@@ -12,20 +13,31 @@ export default class ProductCard extends Component {
       dataTestButton,
       addToCart } = this.props;
     return (
-      <section data-testid={ dataTestId }>
+      <section data-testid={ dataTestId } className="section-product-card">
         <img
+          className="img-product-card"
           data-testid={ dataTestImage }
           src={ product.thumbnail }
           alt={ product.title }
         />
-        <h2 data-testid={ dataTestName }>{product.title}</h2>
-        <p
+        <h2
+          data-testid={ dataTestName }
+          className="title-product-card"
+        >
+          {product.title}
+
+        </h2>
+        <div
+          className="price-product-card"
           data-testid={ dataTestPrice }
         >
+          R$
+          {' '}
           {product.price}
-        </p>
+        </div>
         { addToCart && (
           <button
+            className="button-product-card"
             type="button"
             data-testid={ dataTestButton }
             onClick={ () => addToCart(product.title) }

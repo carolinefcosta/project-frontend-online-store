@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Category from '../components/Category';
 import Header from '../components/Header';
 import ProductCard from '../components/ProductCard';
+import '../styles/Home.css';
 
 class Home extends Component {
   render() {
@@ -26,37 +27,40 @@ class Home extends Component {
           listCategory={ listCategory }
           onClick={ getProductsFromCategory }
         />
-        {(resultProducts.length < 1) && (
-          <h1>Nenhum produto foi encontrado</h1>
+        <div className="home-div">
+          {(resultProducts.length < 1) && (
+            <h1 className="home-h1">Nenhum produto foi encontrado</h1>
+          )}
+          {
+            (!resultProducts.length < 1) ? (
+              resultProducts.map((product) => (
+                <div key={ product.id } className="home-product">
+                  <ProductCard
+                    dataTestId="product"
+                    dataTestButton="product-add-to-cart"
+                    addToCart={ addToCart }
+                    product={ product }
+                  />
+                  <Link
+                    className="home-details"
+                    data-testid="product-detail-link"
+                    to={ `/productDetails/${product.id}` }
+                  >
+                    Detalhes
+                  </Link>
+                </div>
+              ))
 
-        )}
-        {
-          (!resultProducts.length < 1) ? (
-            resultProducts.map((product) => (
-              <div key={ product.id }>
-                <ProductCard
-                  dataTestId="product"
-                  dataTestButton="product-add-to-cart"
-                  addToCart={ addToCart }
-                  product={ product }
-                />
-                <Link
-                  data-testid="product-detail-link"
-                  to={ `/productDetails/${product.id}` }
-                >
-                  Detalhes
-                </Link>
-              </div>
-            ))
-
-          ) : (
-            <h1
-              data-testid="home-initial-message"
-            >
-              Digite algum termo de pesquisa ou escolha uma categoria.
-            </h1>
-          )
-        }
+            ) : (
+              <h1
+                className="home-h1-2"
+                data-testid="home-initial-message"
+              >
+                Digite algum termo de pesquisa ou escolha uma categoria.
+              </h1>
+            )
+          }
+        </div>
       </div>
     );
   }
