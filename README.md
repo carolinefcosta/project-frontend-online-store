@@ -26,14 +26,12 @@ Nesse projeto, fomos capazes de:
 
 ## 🚀 Minha equipe:
 
--Gregório de M. H. Bezerra;
+- [Gregório de M. H. Bezerra](https://github.com/GregorioMHBezerra);
 
--Patrick Ramos;
+- [Patrick Ramos](https://github.com/ptkramos);
 
--Josiane Oliveira;
+- Josiane Oliveira;
 
-![image](https://user-images.githubusercontent.com/115182342/227479381-007101ee-124c-4027-a236-25ee78219476.png)
-
-![image](https://user-images.githubusercontent.com/115182342/227479784-d5f05e0a-dc74-42c9-a248-d15a35303f0e.png)
-
-![image](https://user-images.githubusercontent.com/115182342/227480630-c73a9e5e-7b2a-45db-a531-57646d75f882.png)
+<p align="center">
+  <img width="600px" heigth="600px" src="src/img/online-store.gif" />
+</p>
